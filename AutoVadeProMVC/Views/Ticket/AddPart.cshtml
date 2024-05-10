@@ -1,0 +1,47 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+@using AutoVadeProMVC.ViewModels;
+@model AddPartTicketViewModel
+
+<section class="vh-100">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-6 text-black">
+                <div class="d-flex align-items-center h-custom-2 px-5 ms-xl-4 mt-5 pt-5 pt-xl-0 mt-xl-n5">
+
+                    <form style="width: 23rem;" method="post" asp-action="AddPart">
+
+                        <h3 class="fw-normal mb-3 pb-3" style="letter-spacing: 1px;">Add Part</h3>
+
+                        <div data-mdb-input-init class="form-outline mb-4">
+                            <label asp-for="Name" class="form-label">Part name</label>
+                            <input asp-for="Name" class="form-control form-control-lg" type="text" placeholder="Enter Part's Name">
+                            
+                            <span asp-validation-for="Name" class="text-danger"></span>
+                        </div>
+
+                        <div data-mdb-input-init class="form-outline mb-4">
+                            <label asp-for="Quantity" class="form-label">Quantity</label>
+                            <input asp-for="Quantity" class="form-control form-control-lg" type="number" min="0" step="0.01" placeholder="Enter desired quantity">
+                            
+                            <span asp-validation-for="Quantity" class="text-danger"></span>
+                        </div>
+                        <div data-mdb-input-init class="form-outline mb-4">
+                            <label asp-for="Price" class="form-label">Price per Unit</label>
+                            <input asp-for="Price" class="form-control form-control-lg" type="number" min="0" step="0.01" placeholder="Enter part's' price per unit">
+                            
+                            <span asp-validation-for="Price" class="text-danger"></span>
+                        </div>
+                        <div class="pt-1 mb-4">
+                            <button data-mdb-button-init data-mdb-ripple-init class="btn btn-info btn-lg btn-block" type="submit">Add</button>
+                        </div>
+
+                    </form>
+
+                </div>
+        </div>
+    </div>
+</section>

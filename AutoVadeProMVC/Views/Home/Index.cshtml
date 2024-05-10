@@ -1,0 +1,31 @@
+﻿@using AutoVadeProMVC.Data;
+@model IEnumerable<Ticket>
+
+@{
+    ViewData["Title"] = "Home Page";
+}
+<div class="bg-home div-home">
+    <section class="py-5 text-center container" bg-home>
+    <div class="row py-lg-5">
+        
+            @if (LoggedInUser.Id == -1)
+            {
+                <div class="col-lg-6 col-md-8 mx-auto bg-white">
+                    <h1 class="fw-light">Sign In</h1>
+                <p class="lead text-body-secondary">You are about to enter the fantastical realm of this <br> 'GREAT' website!</p>
+                <p>
+                        <a class="btn btn-secondary my-2" asp-area="" asp-controller="User" asp-action="SignIn">Sign-In</a>
+                    <a href="mailto:adminOfSeriosInc@autovade.com" class="btn btn-secondary my-2">Registration</a>
+                </p>
+                </div>
+            }
+            else
+            {
+                
+            }
+            
+        
+    </div>
+</section>
+</div>
+

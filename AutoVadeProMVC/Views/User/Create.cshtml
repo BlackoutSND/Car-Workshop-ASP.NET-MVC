@@ -1,0 +1,83 @@
+﻿@using AutoVadeProMVC.ViewModels
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+@model CreateUserViewModel
+
+<div class="container-xl px-4 mt-4">
+    <form method="post" asp-action="Create" enctype="multipart/form-data">
+    <hr class="mt-0 mb-4">
+    <div class="row">
+        <div class="col-xl-4">
+                <div class="card mb-4 mb-xl-0">
+                    <label asp-for="Image" class="card-header">User picture</label>
+                    <div class="card-body text-center">
+                        <!-- Profile picture image-->
+                        <img class="img-ticket-add" width="40%" height="70%" src="/Resources/Placeholders/UserPicturePlaceholder.png" alt="">
+                        <!-- Profile picture help block-->
+                        <div class="small font-italic text-muted mb-4">JPG or PNG no larger than 5 MB</div>
+                        <!-- Profile picture upload button-->
+                        <input asp-for="Image" type="file" class="btn btn-primary"></input>
+                        <span asp-validation-for="Image" class="text-danger"></span>
+                    </div>
+                </div>
+        </div>
+        <div class="col-xl-8">
+            <!-- Account details card-->
+            <div class="card mb-4">
+                <div class="card-header">Account Details</div>
+                <div class="card-body">
+                        <!-- Form Group (username)-->
+                        <div class="mb-3">
+                            <label asp-for="Login" class="small mb-1">Login</label>
+                            <input asp-for="Login" class="form-control"  type="text" placeholder="Enter Worker's username">
+                            <span asp-validation-for="Login" class="text-danger"></span>
+                        </div>
+                        <!-- Form Group (password)-->
+                        <div class="mb-3">
+                            <label asp-for="Password" class="small mb-1">Password</label>
+                            <input asp-for="Password" class="form-control" type="password" placeholder="Enter Worker's password">
+                            <span asp-validation-for="Password" class="text-danger"></span>
+                        </div>
+                        <!-- Form Row-->
+                        <div class="row gx-3 mb-3">
+                            <!-- Form Group (first name)-->
+                            <div class="col-md-6">
+                                <label asp-for="Name" class="small mb-1" for="inputFirstName">First name</label>
+                                <input asp-for="Name" class="form-control" id="inputFirstName" type="text" placeholder="Enter Worker's first name">
+                                <span asp-validation-for="Name" class="text-danger"></span>
+                            </div>
+                            <!-- Form Group (last name)-->
+                            <div class="col-md-6">
+                                <label asp-for="Surname" class="small mb-1" for="inputLastName">Last name</label>
+                                <input asp-for="Surname" class="form-control" id="inputLastName" type="text" placeholder="Enter Worker's last name">
+                                <span asp-validation-for="Surname" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <!-- Form Row        -->
+                        <div class="row gx-3 mb-3">
+                            <!-- Form Group (wage)-->
+                            <div class="col-md-6">
+                                <label asp-for="Wage"  class="small mb-1" for="inputOrgName">Wage ($/hr)</label>
+                                <input asp-for="Wage"  class="form-control" id="inputWage" type="number" placeholder="Enter Worker's Wage" value="5.0">
+                                <span asp-validation-for="Wage" class="text-danger"></span>
+                            </div>
+                            <!-- Form Group (admin rights checkbox)-->
+                            <div class="col-md-6">
+                                <label asp-for="IsAdmin"  class="small mb-1" for="inputHasAdminRights">Has admin rights?</label>
+                                <br />
+                                <input asp-for="IsAdmin" id="inputHasAdminRights" type="checkbox">
+                                <span asp-validation-for="IsAdmin" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <!-- Save changes button-->
+                        <button class="btn btn-primary" type="submit">Save changes</button>
+                    
+                </div>
+            </div>
+        </div>
+    </form>
+    </div>
+</div>

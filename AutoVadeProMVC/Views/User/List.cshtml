@@ -1,0 +1,51 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+@using AutoVadeProMVC.Data;
+@model List<User>
+<div class="container">
+    <div class="row">
+        @foreach(var i in Model)
+        {
+            <div  class="col-md-6 col-xl-4">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="media align-items-center">
+                            @if (i.Image == null || i.Image == "")
+                            {
+                                <img style="background-image)" src="/Resources/Placeholders/UserPicturePlaceholder.png" class="avatar avatar-xl mr-3"></img>
+                            }
+                            else
+                            {
+                                <img style="background-image)" src="@i.Image" class="avatar avatar-xl mr-3"></img>
+                            }
+                            <div class="media-body overflow-hidden">
+                                <h5 class="card-text mb-0">@i.Name @i.Surname</h5>
+                                <p class="card-text text-uppercase text-muted">#@i.Id</p>
+                                <p class="card-text">
+
+                                    Wage: $@i.Wage<br />
+                                    @if (i.IsAdmin)
+                                    {
+                                        <p>Administrator</p>
+                                    }
+                                    else
+                                    {
+                                        <p>Regular Employee</P>
+                                    }
+                                </p>
+                            </div>
+                        </div><a type="button" asp-controller="User" asp-action="Detail" asp-route-id="@i.Id" class="btn btn-sm btn-outline-secondary">View</a>
+                        @if(LoggedInUser.IsAdmin==true){
+                            <a type="button" asp-controller="User" asp-action="Edit" asp-route-id="@i.Id" class="btn btn-sm btn-outline-secondary">Edit</a>
+                            <a type="button" asp-controller="User" asp-action="Delete" asp-route-id="@i.Id" class="btn btn-sm btn-outline-secondary">Delete</a>
+                        }
+                        
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>

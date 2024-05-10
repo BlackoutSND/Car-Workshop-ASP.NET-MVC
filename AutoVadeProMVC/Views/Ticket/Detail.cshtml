@@ -1,0 +1,197 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+@model Ticket
+<div class="container-fluid">
+
+    <div class="container">
+        <!-- Title -->
+        <div class="d-flex justify-content-between align-items-center py-3">
+            <h2 class="h5 mb-0"><a href="#" class="text-muted"></a> Ticket #@Model.Id</h2>
+        </div>
+
+        <!-- Main content -->
+        <div class="row">
+            <div class="col-lg-8">
+                <!-- Details -->
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <div class="mb-3 d-flex justify-content-between">
+                            <div>
+                                <span class="me-3">#@Model.Id</span>
+                                <span class="badge rounded-pill bg-info">@Model.Status.ToString()</span> <br /><br/>
+                                <div class="img-ticket-detail">
+                                    @if (Model.Image == null | Model.Image == "")
+                                    {
+                                        <img class="card-img-top" src="/Resources/Placeholders/TicketPicturePlaceholder.png" width="100%" height="100%" alt="Image Placeholder" />
+                                    }
+                                    else
+                                    {
+                                        <img class="card-img-top" src="@Model.Image" width="100%" height="100%" alt="Image Placeholder" />
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                        <table class="table table-borderless">
+                            <tbody>
+                                @{
+                                    double totalCost = 0;
+                                }
+                                @foreach(var i in Model.CarParts)
+                                {
+                                    double totPartPrice = i.Quantity * i.Price;
+                                    <tr>
+                                    <td>
+                                        <div class="d-flex mb-2">
+                                            <div class="flex-shrink-0">
+                                                <img src="~/Resources/Placeholders/CarPartPicturePlaceholder.png" alt="" width="35" class="img-fluid">
+                                            </div>
+                                            <div class="flex-lg-grow-1 ms-3">
+                                                <h6 class="small mb-0"><a href="#" class="text-reset">@i.Name</a></h6>
+                                                <span class="small">Color: Black</span>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>@i.Quantity</td>
+                                    <td class="text-end">$@i.Price</td>
+                                    </tr>
+                                    <td>@i.Quantity</td>
+                                    <td class="text-end">$@totPartPrice</td>
+                                    totalCost += totPartPrice;
+                                }
+                                <td></td>
+                                @if ((Model.Status != AutoVadeProMVC.Data.Enums.TicketStatus.Closed)){
+                                    <td><a type="button" asp-controller="Ticket" asp-action="AddPart" asp-route-id="@Model.Id" class="btn btn-sm btn-outline-secondary">Add</a></td>
+                                }
+
+                                
+                            </tbody>
+                            <tfoot>
+                                <tr class="fw-bold">
+                                    <td colspan="2">TOTAL</td>
+                                    <td class="text-end">$@totalCost</td>
+                                </tr>
+                                @{
+                                    double leftToPay = totalCost;
+                                }
+                                @if (Model.PaidPrice != 0 && Model.PaidPrice != null)
+                                {
+                                    leftToPay -= (double)Model.PaidPrice;
+                                    <tr class="fw-bold">
+                                        <td colspan="2">PAID BY CUSTOMER</td>
+                                        <td class="text-end">$@Model.PaidPrice</td>
+                                    </tr>
+                                    <tr class="fw-bold">
+                                        <td colspan="2">LEFT TO PAY</td>
+                                        <td class="text-end">$@leftToPay</td>
+                                    </tr>
+                                    
+                                }
+                                <tr>
+                                    @if (Model.Status != AutoVadeProMVC.Data.Enums.TicketStatus.Done && Model.Status != AutoVadeProMVC.Data.Enums.TicketStatus.Closed)
+                                    {
+                                        <td><a type="button" asp-controller="Ticket" asp-action="TicketIsDone" asp-route-id="@Model.Id" class="btn btn-sm btn-outline-secondary">Mark as Done</a></td>
+                                    }
+                                    else if (Model.Status == AutoVadeProMVC.Data.Enums.TicketStatus.Done)
+                                    {
+                                        <td><a type="button" asp-controller="Ticket" asp-action="TicketIsClosed" asp-route-id="@Model.Id" class="btn btn-sm btn-outline-secondary">Close the Ticket</a></td>
+                                    }
+
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                </div>
+                <!-- Payment -->
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <h3 class="h6">Assigned Employees</h3>
+                                @if (Model.User==null)
+                                {
+                                    <p>>Woah... So empty...</p>
+                                }
+                                else
+                                {
+                                    <p>
+                                        <td><a type="button" asp-controller="User" asp-action="Detail" asp-route-id="@Model.User.Id"><strong>> #@Model.User.Id @Model.User.Name</strong><br /></a></td>
+                                        
+                                    </p>
+                                }
+                            </div>
+                            <div class="col-lg-6">
+                                <h3 class="h6">Deduced Problem</h3>
+                                <p>
+                                    @if (Model.DeducedProblem == null || Model.DeducedProblem=="")
+                                    {
+                                        <a>>In Process...</a>
+                                    }
+                                    else
+                                    {
+                                        <a>>Model.DeducedProblem</a>
+                                    }
+                                </p>
+                            </div>
+                            <div>
+                                <h3 class="h6">Time Slots</h3>
+                                <p>
+                                    @if (Model.TimeSlots==null||Model.TimeSlots.Count() == 0)
+                                    {
+                                    <p>>No time slot has been assigned yet!</p>
+                                    }
+                                    else
+                                    {
+                                        foreach (var i in Model.TimeSlots)
+                                        {
+                                        
+                                                @if (i != null)
+                                                {
+                                                    <td class="display: inline"><strong>From:</strong> @i.SlotBegining<br /> <strong>Till:</strong> @i.SlotEnding.ToString()<br />
+                                                    @if (Model.Status != AutoVadeProMVC.Data.Enums.TicketStatus.Closed)
+                                                    {
+                                                        <a type="button" asp-controller="Ticket" asp-action="RemoveTimeSlot" asp-route-id="@i.Id" class="btn btn-sm btn-outline-secondary">Remove</a>
+                                                    }
+                                                    </td>
+
+                                                <br /><br />
+                                                }
+
+                                        
+                                        }
+                                    }
+                                </p>
+                                <p>
+                                    @if (Model.Status != AutoVadeProMVC.Data.Enums.TicketStatus.Closed){
+                                        <td><a type="button" asp-controller="Ticket" asp-action="AddTimeSlot" asp-route-id="@Model.Id" class="btn btn-sm btn-outline-secondary">Add</a></td>
+                                    }
+                                   
+                                </p>
+                            </div>
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <!-- Original Problem Description -->
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <h3 class="h6">Customer Problem Description</h3>
+                        <p>@Model.Description</p>
+                    </div>
+                </div>
+                <div class="card mb-4">
+                    <!-- Car Info -->
+                    <div class="card-body">
+                        <h3 class="h6">Car Details</h3>
+                        <strong>@Model.Car.Brand @Model.Car.Model</strong>
+                        <span><a class="text-decoration-underline" target="_blank">@Model.Car.RegistrationId</a> <i class="bi bi-box-arrow-up-right"></i> </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
